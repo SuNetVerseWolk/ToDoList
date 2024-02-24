@@ -1,0 +1,33 @@
+.Item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 10px;
+    padding: 10px 20px;
+    min-height: 50px;
+    font-size: clamp(15px, 3vh, 50px);
+    background: #fc9e1a;
+    border: hsla(0, 0%, 100%, 0) solid 4px;
+
+    & div:not(.textArea) {
+        display: flex;
+
+        button {
+            height: clamp(30px, 3vh, 50px);
+            background: none;
+            border: none;
+            margin: 0 3px;
+    
+            img {
+                height: 100%;
+                aspect-ratio: 1;
+            }
+        }
+    }
+}
+
+.textArea {
+    width: 100%;
+    overflow-wrap: break-word;
+}

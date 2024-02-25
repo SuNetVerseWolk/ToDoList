@@ -1,16 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('node:path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/', express.static(path.join(__dirname, '../ToDoList/dist')));
 
 const PORT = 3002;
 const PATH = 'data.json';
 
 const noteData = JSON.parse(fs.readFileSync(PATH));
+
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../ToDoList/dist/index.html')));
 
 app.get('/api', (req, res) => {
   fs.readFile(PATH, (err, data) => {

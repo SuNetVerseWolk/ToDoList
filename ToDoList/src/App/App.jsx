@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('http://localhost:3002/api');
+      const res = await fetch('https://todolist-t01a.onrender.com/api');
       const data = await res.json();
     
       setData(data);
@@ -23,11 +23,11 @@ const App = () => {
   const postText = async () => {
     try {
       if (text !== '')
-        await axios.post('http://localhost:3002/setInfo', {
+        await axios.post('https://todolist-t01a.onrender.com/setInfo', {
             text
         });
 
-      const res = await fetch('http://localhost:3002/api');
+      const res = await fetch('https://todolist-t01a.onrender.com/api');
       const data = await res.json();
 
       setData(data);

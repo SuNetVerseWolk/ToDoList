@@ -4,6 +4,7 @@ import styles from "./app.module.css"
 import { animate, motion } from 'framer-motion'
 import axios from 'axios'
 import Item from '../components/Item'
+import addBtnPng from '/png/add-button.png'
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -57,7 +58,7 @@ const App = () => {
                       justify-content: center;
                     `;
               }, 300);
-            }}><img src="/png/add-button.png" alt="" /></motion.button>
+            }}><img src={addBtnPng} alt="" /></motion.button>
           </div>
 
           {

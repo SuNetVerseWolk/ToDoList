@@ -2,17 +2,20 @@ import styles from './styleItem.module.css'
 import React, { useRef, useState } from 'react'
 import { animate, motion } from 'framer-motion'
 import axios from 'axios'
+import cPng from '/png/c.png'
+import binPng from '/png/bin.png'
+import floppyDiskPng from '/png/floppy-disk.png'
 
 const Item = ({ ID, note, setData }) => {
-    const [imgSrc, setImgSrc] = useState('/png/c.png');
+    const [imgSrc, setImgSrc] = useState(cPng);
     const [textEditable, setTextEditable] = useState(false);
     const textAreaRef = useRef(null);
 
     const handleDelete = async (ID) => {
       try {
-        await axios.post('http://localhost:3002/setDeleted', { itemID: ID });
+        await axios.post('https://todolist-t01a.onrender.com/setDeleted', { itemID: ID });
         
-        const res = await fetch('http://localhost:3002/api');
+        const res = await fetch('https://todolist-t01a.onrender.com/api');
         const noteData = await res.json();
   
         setData(noteData);
@@ -21,9 +24,9 @@ const Item = ({ ID, note, setData }) => {
 
     const handleChanges = async (ID, text) => {
       try {
-        await axios.post('http://localhost:3002/setChanges', { itemID: ID, newText: text});
+        await axios.post('https://todolist-t01a.onrender.com/setChanges', { itemID: ID, newText: text});
   
-        const res = await fetch('http://localhost:3002/api');
+        const res = await fetch('https://todolist-t01a.onrender.com/api');
         const noteData = await res.json();
   
         setData(noteData);
@@ -31,7 +34,7 @@ const Item = ({ ID, note, setData }) => {
     }
 
     const toggleImage = (ID) => {
-      setImgSrc(prevSrc => prevSrc === '/png/c.png' ? '/png/floppy-disk.png' : '/png/c.png');
+      setImgSrc(prevSrc => prevSrc === cPng ? floppyDiskPng : cPng);
       setTextEditable(prevEditable => !prevEditable);
 
       if (textEditable) handleChanges(ID, textAreaRef.current.textContent);
@@ -56,7 +59,7 @@ const Item = ({ ID, note, setData }) => {
               });
 
               setTimeout(() => handleDelete(ID), 150);
-            }} className={styles.delete}><img src="/png/bin.png" alt="" /></motion.button>
+            }} className={styles.delete}><img src={binPng} alt="" /></motion.button>
           </div>
         </motion.div>
       </>

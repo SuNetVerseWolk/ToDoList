@@ -37,6 +37,7 @@ app.post('/setInfo', cors(), (req, res) => {
 });
 
 app.post('/setDeleted', (req, res) => {
+	const noteData = JSON.parse(fs.readFileSync(PATH));
   const noteIndex = req.body.itemID;
   noteData.splice(noteIndex, 1);
 
@@ -46,6 +47,7 @@ app.post('/setDeleted', (req, res) => {
 });
 
 app.post('/setChanges', (req, res) => {
+	const noteData = JSON.parse(fs.readFileSync(PATH));
   const noteIndex = noteData[req.body.itemID];
   noteIndex.text = req.body.newText;
 

@@ -12,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('https://todolist-t01a.onrender.com/api');
+      const res = await fetch(import.meta.env.VITE_DB + '/api');
       const data = await res.json();
     
       setData(data);
@@ -24,11 +24,11 @@ const App = () => {
   const postText = async () => {
     try {
       if (text !== '')
-        await axios.post('https://todolist-t01a.onrender.com/setInfo', {
+        await axios.post(import.meta.env.VITE_DB + '/setInfo', {
             text
         });
 
-      const res = await fetch('https://todolist-t01a.onrender.com/api');
+      const res = await fetch(import.meta.env.VITE_DB + '/api');
       const data = await res.json();
 
       setData(data);

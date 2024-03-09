@@ -10,8 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = 3002;
 const PATH = 'data.json';
 
-const noteData = JSON.parse(fs.readFileSync(PATH));
-
 app.get('/api', (req, res) => {
   fs.readFile(PATH, (err, data) => {
     if (err) {
@@ -25,6 +23,8 @@ app.get('/api', (req, res) => {
 });
 
 app.post('/setInfo', cors(), (req, res) => {
+	const noteData = JSON.parse(fs.readFileSync(PATH));
+
   const infoNote = {
       id: Date.now(),
       text: req.body.text

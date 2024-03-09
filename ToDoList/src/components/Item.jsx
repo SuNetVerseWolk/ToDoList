@@ -13,9 +13,9 @@ const Item = ({ ID, note, setData }) => {
 
     const handleDelete = async (ID) => {
       try {
-        await axios.post('https://todolist-t01a.onrender.com/setDeleted', { itemID: ID });
+        await axios.post(import.meta.env.VITE_DB + '/setDeleted', { itemID: ID });
         
-        const res = await fetch('https://todolist-t01a.onrender.com/api');
+        const res = await fetch(import.meta.env.VITE_DB + '/api');
         const noteData = await res.json();
   
         setData(noteData);
@@ -24,9 +24,9 @@ const Item = ({ ID, note, setData }) => {
 
     const handleChanges = async (ID, text) => {
       try {
-        await axios.post('https://todolist-t01a.onrender.com/setChanges', { itemID: ID, newText: text});
+        await axios.post(import.meta.env.VITE_DB + '/setChanges', { itemID: ID, newText: text});
   
-        const res = await fetch('https://todolist-t01a.onrender.com/api');
+        const res = await fetch(import.meta.env.VITE_DB + '/api');
         const noteData = await res.json();
   
         setData(noteData);

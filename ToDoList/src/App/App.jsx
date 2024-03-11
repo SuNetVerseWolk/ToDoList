@@ -7,69 +7,67 @@ import Item from '../components/Item'
 import addBtnPng from '/png/add-button.png'
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [text, setText] = useState('');
+	const [data, setData] = useState([]);
+	const [text, setText] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(import.meta.env.VITE_DB + '/api');
-      const data = await res.json();
-    
-      setData(data);
-    }
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await fetch(import.meta.env.VITE_DB + '/api');
+			const data = await res.json();
 
-    fetchData();
-  }, []);
+			setData(data);
+		}
 
-  const postText = async () => {
-    try {
-      if (text !== '')
-        await axios.post(import.meta.env.VITE_DB + '/setInfo', {
-            text
-        });
+		fetchData();
+	}, []);
 
-      const res = await fetch(import.meta.env.VITE_DB + '/api');
-      const data = await res.json();
+	const postText = async () => {
+		try {
+			if (text !== '') {
+				const newNote = { text: text, id: crypto.randomUUID() };
 
-      setData(data);
-      setText('');
-    } catch(err) { console.log(err) }
-  }
+				setData(prev => [newNote, ...prev]);
+				setText('');
 
-  return (
-    <>
-      <main>
-        <motion.div whileHover={{boxShadow: 'inset #fc9e1a44 0 0 100px'}} id='mainImg' className={styles.mainImg}></motion.div>
+				await axios.post(import.meta.env.VITE_DB + '/setInfo', newNote);
+			}
+		} catch (err) { console.log(err) }
+	}
 
-        <div id='container'>
-          <div className={styles.inputContainer}>
-            <motion.input whileFocus={{borderColor: '#fc9e1a49'}} id='textInput' value={text} onChange={e => setText(e.target.value)} type="text" placeholder='Enter your note...' />
+	return (
+		<>
+			<main>
+				<motion.div whileHover={{ boxShadow: 'inset #fc9e1a44 0 0 100px' }} id='mainImg' className={styles.mainImg}></motion.div>
 
-            <motion.button whileTap={{scale: 1.1}} onClick={() => {
-              postText();
+				<div id='container'>
+					<div className={styles.inputContainer}>
+						<motion.input whileFocus={{ borderColor: '#fc9e1a49' }} id='textInput' value={text} onChange={e => setText(e.target.value)} type="text" placeholder='Enter your note...' />
 
-              animate('#mainImg', {
-                translate: '-100%',
-              });
+						<motion.button whileTap={{ scale: 1.1 }} onClick={() => {
+							postText();
 
-              setTimeout(() => {
-                    document.querySelector('main').style = `
+							animate('#mainImg', {
+								translate: '-100%',
+							});
+
+							setTimeout(() => {
+								document.querySelector('main').style = `
                       display: flex;
                       justify-content: center;
                     `;
-              }, 300);
-            }}><img src={addBtnPng} alt="" /></motion.button>
-          </div>
+							}, 300);
+						}}><img src={addBtnPng} alt="" /></motion.button>
+					</div>
 
-          {
-            data.map((note, index) => (
-              <Item key={note.id} note={note} setData={setData} ID={index}/>
-            ))
-          }
-        </div>
-      </main>
-    </>
-  )
+					{
+						data.map((note, index) => (
+							<Item key={note.id} note={note} setData={setData} ID={index} />
+						))
+					}
+				</div>
+			</main>
+		</>
+	)
 }
 
 export default App

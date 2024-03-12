@@ -5,17 +5,35 @@ import { animate, motion } from 'framer-motion'
 import axios from 'axios'
 import Item from '../components/Item'
 import addBtnPng from '/png/add-button.png'
+import Loading from '../components/loading'
 
 const App = () => {
 	const [data, setData] = useState([]);
 	const [text, setText] = useState('');
+	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await fetch(import.meta.env.VITE_DB + '/api');
-			const data = await res.json();
+			const abortcontroler = new AbortController();
+			const signal = abortcontroler.signal;
 
-			setData(data);
+			try {
+				setLoading(true);
+
+				await fetch(import.meta.env.VITE_DB + '/api')
+				.then(res => res.json())
+				.then(
+					(result) => setData(result),
+					(error) => console.log(error)
+				);
+
+			} catch (error) {
+				alert("Sorry but something went wrong :(");
+
+			} finally {
+				setLoading(false);
+
+			}
 		}
 
 		fetchData();
@@ -60,9 +78,13 @@ const App = () => {
 					</div>
 
 					{
-						data.map((note, index) => (
-							<Item key={note.id} note={note} setData={setData} ID={index} />
-						))
+						isLoading && (
+							<Loading />
+						) || (
+							data.map((note, index) => (
+								<Item key={note.id} note={note} setData={setData} ID={index} />
+							))
+						)
 					}
 				</div>
 			</main>

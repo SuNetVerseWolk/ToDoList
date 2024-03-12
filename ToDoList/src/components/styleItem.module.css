@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
 
-    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px 20px;
     min-height: 50px;
     font-size: clamp(15px, 3vh, 50px);
